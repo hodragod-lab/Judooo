@@ -1,832 +1,493 @@
+:root {
+  --bg: #eef4f8;
+  --surface: #ffffff;
+  --surface-alt: #f7fafc;
+  --surface-strong: #0f2d40;
+  --primary: #1c5d99;
+  --primary-strong: #154a79;
+  --accent: #e4b343;
+  --success: #1f8f5f;
+  --warning: #d98a00;
+  --danger: #c74a4a;
+  --text: #16212b;
+  --muted: #617181;
+  --border: #d7e0e8;
+  --border-strong: #b9c8d6;
+  --shadow-sm: 0 8px 18px rgba(15, 45, 64, 0.08);
+  --shadow-md: 0 18px 40px rgba(15, 45, 64, 0.12);
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --content-width: 1240px;
+  --touch: 46px;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
-    min-height: 100vh;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(28, 93, 153, 0.12), transparent 36%),
+    linear-gradient(180deg, #f6fbff 0%, #eef4f8 40%, #e9f0f6 100%) !important;
+  min-height: 100vh;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  width: min(calc(100% - 28px), calc(var(--content-width) + 40px));
+  margin: 24px auto 40px;
+}
+
+.header,
+.score-section,
+.controls,
+.scoring-table-section,
+.notes-section {
+  width: min(100%, var(--content-width));
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .header {
-    text-align: center;
-    margin-bottom: 30px;
-    border-bottom: 3px solid #667eea;
-    padding-bottom: 20px;
+  background: linear-gradient(135deg, #12344b 0%, #1c5d99 58%, #2c78ba 100%);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
 }
 
-h1 {
-    color: #333;
-    font-size: 2.5em;
-    margin-bottom: 20px;
+.header::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -30% auto;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(255,255,255,0.16), transparent 65%);
+  pointer-events: none;
 }
 
-h2 {
-    color: #667eea;
-    font-size: 1.5em;
-    margin-bottom: 15px;
-    margin-top: 25px;
-}
-
-h3 {
-    color: #555;
-    font-size: 1.1em;
-    margin-bottom: 10px;
+.header h1 {
+  margin: 0 0 22px;
+  font-size: clamp(1.75rem, 3vw, 2.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
 }
 
 .info-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: end;
 }
 
 .info-field {
-    display: flex;
-    flex-direction: column;
+  display: grid;
+  gap: 8px;
 }
 
-.info-field label {
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 8px;
-    font-size: 0.95em;
+.info-field label,
+.notes-section label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 .info-field input,
 .notes-section textarea {
-    padding: 10px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    font-size: 1em;
-    transition: border-color 0.3s;
+  width: 100%;
+  min-height: var(--touch);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.95);
+  color: var(--text);
+  padding: 12px 14px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
 }
 
 .info-field input:focus,
 .notes-section textarea:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: 3px solid rgba(228, 179, 67, 0.28);
+  border-color: var(--accent);
 }
 
 .score-section {
-    margin: 30px 0;
+  margin-top: 20px;
 }
 
 .score-display {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .score-box {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 25px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.score-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-}
-
-.score-box.final {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+  min-height: 122px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .score-box .label {
-    font-size: 0.9em;
-    opacity: 0.9;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  color: var(--muted);
+  font-size: 0.94rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .score-box .value {
-    font-size: 3em;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--surface-strong);
 }
 
-/* Scoring Table Styles */
-.scoring-table-section {
-    background: #f9f9f9;
-    padding: 25px;
-    border-radius: 10px;
-    margin: 30px 0;
+.score-box.final {
+  background: linear-gradient(135deg, #1f8f5f 0%, #156c47 100%);
+  border-color: transparent;
 }
 
-.scoring-note {
-    color: #666;
-    font-style: italic;
-    margin-bottom: 20px;
-    padding: 10px;
-    background: #fff3cd;
-    border-left: 4px solid #ffc107;
-    border-radius: 4px;
-}
-
-.technique-group {
-    background: white;
-    margin: 30px 0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.group-title {
-    background: #667eea;
-    color: white;
-    padding: 12px 20px;
-    margin: 0;
-    font-size: 1.05em;
-}
-
-.technique-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.technique-row:last-child {
-    border-bottom: none;
-}
-
-.technique-row:hover {
-    background-color: #fff9f0;
-}
-
-.technique-name {
-    font-weight: 600;
-    color: #333;
-    font-size: 0.95em;
-    flex: 0 0 auto;
-    width: 120px;
-    min-width: 120px;
-}
-
-.side-section {
-    flex: 1;
-    min-width: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.side-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.score-options {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    flex: 1;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
-/* Larger radio button styling for tablets */
-.radio-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 12px !important;
-    margin: 4px !important;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    background: white;
-    cursor: pointer;
-    font-size: 11px !important;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    min-width: 85px;
-    white-space: nowrap;
-    text-align: center;
-}
-
-.radio-button:hover {
-    border-color: #667eea;
-    background-color: #f0f4ff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-}
-
-.radio-button input[type="radio"] {
-    margin-right: 8px !important;
-    width: 20px !important;
-    height: 20px !important;
-    cursor: pointer;
-    accent-color: #667eea;
-}
-
-.radio-button input[type="radio"]:checked {
-    accent-color: #f5576c;
-}
-
-.radio-button input[type="radio"]:checked + span {
-    color: #f5576c;
-    font-weight: bold;
-}
-
-.radio-button:has(input[type="radio"]:checked) {
-    border-color: #f5576c;
-    background: linear-gradient(135deg, #fff0f5 0%, #ffe0eb 100%);
-    box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.15);
+.score-box.final .label,
+.score-box.final .value {
+  color: #fff;
 }
 
 .controls {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 30px 0;
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
 
 .controls.top-controls {
-    background: #fff3cd;
-    border: 2px solid #ffc107;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 20px 0;
-    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+  background: linear-gradient(180deg, #fff7df 0%, #fff2c6 100%);
+  border: 1px solid #efdca0;
 }
 
 .controls.bottom-controls {
-    background: #f0f8ff;
-    border: 2px solid #667eea;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 30px 0;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+  background: linear-gradient(180deg, #edf5ff 0%, #e3efff 100%);
+  border: 1px solid #cfdef4;
 }
 
 button {
-    padding: 14px 28px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-height: var(--touch);
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+  box-shadow: 0 10px 18px rgba(20, 53, 82, 0.12);
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.02);
+}
+
+button:active {
+  transform: translateY(0);
 }
 
 .btn-start-new {
-    background: #e74c3c;
-    color: white;
-    padding: 14px 28px;
-}
-
-.btn-start-new:hover {
-    background: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-}
-
-.btn-start-new:active {
-    transform: translateY(0);
+  background: #1f2933;
+  color: #fff;
 }
 
 .btn-save {
-    background: #27ae60;
-    color: white;
-    padding: 14px 28px;
-}
-
-.btn-save:hover {
-    background: #229954;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-strong) 100%);
+  color: #fff;
+  flex: 1 1 220px;
 }
 
 .btn-view-score {
-    background: #3498db;
-    color: white;
-    padding: 14px 28px;
+  background: #fff;
+  color: var(--primary-strong);
+  border: 1px solid #bfd1e5;
+  flex: 1 1 220px;
 }
 
-.btn-view-score:hover {
-    background: #2980b9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+.scoring-table-section {
+  margin-top: 22px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(215, 224, 232, 0.9);
+  border-radius: 28px;
+  padding: 24px;
+  box-shadow: var(--shadow-md);
 }
 
-.notes-section {
-    background: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-top: 30px;
+.scoring-table-section h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  color: var(--surface-strong);
 }
 
-.notes-section label {
-    display: block;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
+.scoring-note {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.97rem;
 }
 
-.notes-section textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 0.95em;
-    resize: vertical;
-}
-
-@media print {
-    body {
-        background: white;
-        padding: 0;
-    }
-
-    .container {
-        box-shadow: none;
-        max-width: 100%;
-        padding: 20px;
-    }
-
-    .controls {
-        display: none;
-    }
-
-    .score-box {
-        break-inside: avoid;
-    }
-
-    .technique-group {
-        break-inside: avoid;
-    }
-}
-
-@media (max-width: 1024px) {
-    .technique-row {
-        gap: 15px;
-        padding: 12px 15px;
-    }
-
-    .technique-name {
-        flex: 0 0 110px;
-        min-width: 110px;
-    }
-
-    .score-options {
-        gap: 6px;
-        min-width: 180px;
-    }
-
-    .side-section {
-        min-width: 150px;
-    }
-
-    .radio-button {
-        padding: 9px 10px !important;
-        min-width: 80px;
-        font-size: 11px !important;
-    }
-
-    .radio-button input[type="radio"] {
-        width: 16px !important;
-        height: 16px !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 20px;
-    }
-
-    h1 {
-        font-size: 1.8em;
-    }
-
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .score-display {
-        grid-template-columns: 1fr;
-    }
-
-    .technique-name {
-        flex: 1;
-        min-width: auto;
-    }
-
-    .technique-row {
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px;
-    }
-
-    .score-options {
-        gap: 6px;
-        flex-wrap: wrap;
-        min-width: auto;
-    }
-
-    .side-section {
-        min-width: auto;
-        flex: 1;
-    }
-
-    .radio-button {
-        padding: 10px 10px !important;
-        min-width: 75px;
-        font-size: 11px !important;
-        flex: 0 1 calc(33% - 5px);
-    }
-
-    .radio-button input[type="radio"] {
-        width: 18px !important;
-        height: 18px !important;
-        margin-right: 4px !important;
-    }
-
-    .radio-button span {
-        text-align: center;
-        font-size: 11px;
-    }
-}
-
-@media (max-width: 480px) {
-    .score-box .value {
-        font-size: 2em;
-    }
-
-    .technique-row {
-        padding: 8px;
-    }
-
-    /* Full width buttons on small phones */
-    .radio-button {
-        flex: 1 1 calc(50% - 4px);
-        padding: 12px 8px !important;
-        font-size: 12px !important;
-        min-height: 48px;
-    }
-
-    .radio-button input[type="radio"] {
-        width: 20px !important;
-        height: 20px !important;
-    }
-
-    .technique-name {
-        font-size: 0.85em;
-    }
-}
-
-/* Adjustments for consistent alignment */
-
-/* Ensure all sections have uniform padding and margins */
-.container {
-    padding: 40px;
-}
-
-/* Align .info-grid fields properly */
-.info-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-}
-
-/* Ensure .score-display boxes align properly */
-.score-display {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-}
-
-/* Fix alignment issues in .technique-row */
-.technique-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 20px;
-}
-
-/* Ensure .side-section aligns properly */
-.side-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-/* Display side labels for better alignment */
-.side-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-/* Add consistent spacing between technique groups */
 .technique-group {
-    margin: 30px 0;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e8eef4;
 }
 
-/* Ensure .notes-section aligns with the rest of the page */
-.notes-section {
-    margin-top: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #f9f9f9;
+.technique-group:first-of-type {
+  margin-top: 18px;
+  padding-top: 0;
+  border-top: 0;
 }
 
-/* Ensure uniform alignment and spacing across all sections */
-
-/* Set consistent max-width and center alignment for all sections */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px;
-}
-
-/* Adjust .info-grid for better alignment */
-.info-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-content: space-between;
-}
-
-/* Align .score-display with .info-grid */
-.score-display {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    justify-content: space-between;
-}
-
-/* Ensure .technique-row aligns with other sections */
-.technique-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 15px 0;
-}
-
-/* Adjust .side-section for consistent alignment */
-.side-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-/* Add consistent spacing between sections */
-.technique-group {
-    margin: 30px 0;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-/* Ensure .notes-section aligns with the rest of the page */
-.notes-section {
-    margin-top: 30px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #f9f9f9;
-}
-
-/* ===== Mobile responsiveness overrides ===== */
-html {
-    -webkit-text-size-adjust: 100%;
-}
-
-body {
-    overflow-x: hidden;
-}
-
-.container {
-    width: min(1200px, 100%);
-    background: #ffffff;
-}
-
-img,
-input,
-textarea,
-button {
-    max-width: 100%;
-}
-
-.info-field input,
-.notes-section textarea {
-    width: 100%;
+.group-title {
+  margin: 0 0 14px;
+  color: var(--primary-strong);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
 .technique-row {
-    align-items: flex-start;
+  display: grid;
+  grid-template-columns: minmax(220px, 310px) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 16px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbfd 100%);
+  border: 1px solid #dde7f0;
+  border-radius: 20px;
+  box-shadow: 0 6px 14px rgba(21, 55, 88, 0.05);
+}
+
+.technique-group .technique-row + .technique-row {
+  margin-top: 14px;
 }
 
 .technique-name {
-    width: 100%;
-    max-width: 100%;
+  font-weight: 800;
+  color: var(--surface-strong);
+  line-height: 1.35;
+  padding-top: 10px;
 }
 
 .side-section {
-    width: 100%;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+  min-width: 0;
+}
+
+.side-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  background: #dfeeff;
+  color: var(--primary-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .score-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.technique-row > .score-options {
+  grid-column: 2 / -1;
+}
+
+.radio-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--touch);
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.radio-button:hover {
+  border-color: #9ab6d1;
+  box-shadow: 0 6px 14px rgba(28, 93, 153, 0.08);
+}
+
+.radio-button input {
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  flex: 0 0 auto;
+}
+
+.radio-button span {
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.notes-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.notes-section textarea {
+  min-height: 140px;
+  margin-top: 10px;
+  resize: vertical;
+  border-color: var(--border);
+  background: #fbfdff;
+}
+
+@media (max-width: 1100px) {
+  .container {
+    width: min(calc(100% - 24px), calc(var(--content-width) + 32px));
+  }
+
+  .technique-row {
+    grid-template-columns: minmax(180px, 260px) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .score-options {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .header,
+  .scoring-table-section,
+  .notes-section {
+    padding: 20px;
+  }
+
+  .info-grid,
+  .score-display {
+    grid-template-columns: 1fr;
+  }
+
+  .technique-row {
+    grid-template-columns: 1fr;
+  }
+
+  .technique-name {
+    padding-top: 0;
+  }
+
+  .technique-row > .score-options {
+    grid-column: auto;
+  }
+
+  .controls {
+    flex-wrap: wrap;
+  }
+
+  .btn-start-new,
+  .btn-save,
+  .btn-view-score {
     width: 100%;
+    flex-basis: 100%;
+  }
 }
 
-@media (max-width: 768px) {
-    body {
-        padding: 12px;
-    }
+@media (max-width: 640px) {
+  .container {
+    width: min(calc(100% - 16px), calc(var(--content-width) + 16px));
+    margin-top: 12px;
+    margin-bottom: 24px;
+  }
 
-    .container {
-        padding: 16px;
-        border-radius: 10px;
-    }
+  .header {
+    border-radius: 20px;
+    padding: 18px;
+  }
 
-    .header {
-        margin-bottom: 20px;
-        padding-bottom: 16px;
-    }
+  .header h1 {
+    margin-bottom: 18px;
+  }
 
-    h1 {
-        font-size: 1.5rem;
-        line-height: 1.25;
-        margin-bottom: 16px;
-    }
+  .score-box,
+  .controls,
+  .notes-section,
+  .scoring-table-section {
+    border-radius: 18px;
+  }
 
-    h2 {
-        font-size: 1.2rem;
-    }
+  .controls,
+  .scoring-table-section,
+  .notes-section {
+    padding: 14px;
+  }
 
-    .scoring-table-section,
-    .notes-section,
-    .controls.top-controls,
-    .controls.bottom-controls {
-        padding: 14px;
-        margin: 18px 0;
-    }
+  .technique-group {
+    margin-top: 18px;
+    padding-top: 16px;
+  }
 
-    .score-box {
-        padding: 18px;
-    }
+  .technique-row {
+    padding: 12px;
+    border-radius: 16px;
+    gap: 12px;
+  }
 
-    .score-box .value {
-        font-size: 2.2rem;
-    }
+  .side-section {
+    padding: 10px;
+    border-radius: 14px;
+  }
 
-    .technique-group {
-        padding: 0;
-        margin: 18px 0;
-    }
+  .score-options {
+    grid-template-columns: 1fr;
+  }
 
-    .group-title {
-        padding: 12px 14px;
-        font-size: 1rem;
-    }
+  .radio-button {
+    padding: 10px 12px;
+  }
 
-    .technique-row {
-        display: block;
-        padding: 12px;
-    }
+  .radio-button span {
+    font-size: 0.92rem;
+  }
 
-    .technique-name {
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-    }
-
-    .side-section + .side-section {
-        margin-top: 12px;
-        padding-top: 12px;
-        border-top: 1px dashed #e3e3e3;
-    }
-
-    .side-label {
-        margin-bottom: 8px;
-    }
-
-    .score-options {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 8px;
-    }
-
-    .radio-button {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        min-width: 0;
-        width: 100%;
-        margin: 0 !important;
-        padding: 12px 10px !important;
-        font-size: 0.85rem !important;
-        white-space: normal;
-    }
-
-    .radio-button span {
-        line-height: 1.25;
-        text-align: left;
-    }
-
-    .radio-button input[type="radio"] {
-        flex: 0 0 auto;
-        margin-right: 8px !important;
-    }
-
-    .controls {
-        flex-direction: column;
-    }
-
-    .controls button,
-    .btn-start-new,
-    .btn-save,
-    .btn-view-score {
-        width: 100%;
-    }
-
-    .notes-section textarea {
-        min-height: 120px;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 8px;
-    }
-
-    .container {
-        padding: 12px;
-        border-radius: 8px;
-    }
-
-    h1 {
-        font-size: 1.3rem;
-    }
-
-    .score-box {
-        padding: 14px;
-    }
-
-    .score-box .label {
-        font-size: 0.78rem;
-    }
-
-    .score-box .value {
-        font-size: 1.9rem;
-    }
-
-    .scoring-note {
-        font-size: 0.9rem;
-    }
-
-    .technique-row {
-        padding: 10px;
-    }
-
-    .technique-name {
-        font-size: 0.9rem;
-    }
-
-    .score-options {
-        grid-template-columns: 1fr;
-    }
-
-    .radio-button {
-        min-height: 46px;
-        font-size: 0.82rem !important;
-    }
-
-    button {
-        padding: 12px 16px;
-        font-size: 0.95rem;
-    }
+  .score-box {
+    min-height: 104px;
+    padding: 18px;
+  }
 }
