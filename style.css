@@ -619,3 +619,214 @@ button {
     border-radius: 8px;
     background: #f9f9f9;
 }
+
+/* ===== Mobile responsiveness overrides ===== */
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.container {
+    width: min(1200px, 100%);
+    background: #ffffff;
+}
+
+img,
+input,
+textarea,
+button {
+    max-width: 100%;
+}
+
+.info-field input,
+.notes-section textarea {
+    width: 100%;
+}
+
+.technique-row {
+    align-items: flex-start;
+}
+
+.technique-name {
+    width: 100%;
+    max-width: 100%;
+}
+
+.side-section {
+    width: 100%;
+}
+
+.score-options {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    .container {
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    .header {
+        margin-bottom: 20px;
+        padding-bottom: 16px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        line-height: 1.25;
+        margin-bottom: 16px;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    .scoring-table-section,
+    .notes-section,
+    .controls.top-controls,
+    .controls.bottom-controls {
+        padding: 14px;
+        margin: 18px 0;
+    }
+
+    .score-box {
+        padding: 18px;
+    }
+
+    .score-box .value {
+        font-size: 2.2rem;
+    }
+
+    .technique-group {
+        padding: 0;
+        margin: 18px 0;
+    }
+
+    .group-title {
+        padding: 12px 14px;
+        font-size: 1rem;
+    }
+
+    .technique-row {
+        display: block;
+        padding: 12px;
+    }
+
+    .technique-name {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+    }
+
+    .side-section + .side-section {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px dashed #e3e3e3;
+    }
+
+    .side-label {
+        margin-bottom: 8px;
+    }
+
+    .score-options {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .radio-button {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        min-width: 0;
+        width: 100%;
+        margin: 0 !important;
+        padding: 12px 10px !important;
+        font-size: 0.85rem !important;
+        white-space: normal;
+    }
+
+    .radio-button span {
+        line-height: 1.25;
+        text-align: left;
+    }
+
+    .radio-button input[type="radio"] {
+        flex: 0 0 auto;
+        margin-right: 8px !important;
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .controls button,
+    .btn-start-new,
+    .btn-save,
+    .btn-view-score {
+        width: 100%;
+    }
+
+    .notes-section textarea {
+        min-height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+
+    .container {
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    h1 {
+        font-size: 1.3rem;
+    }
+
+    .score-box {
+        padding: 14px;
+    }
+
+    .score-box .label {
+        font-size: 0.78rem;
+    }
+
+    .score-box .value {
+        font-size: 1.9rem;
+    }
+
+    .scoring-note {
+        font-size: 0.9rem;
+    }
+
+    .technique-row {
+        padding: 10px;
+    }
+
+    .technique-name {
+        font-size: 0.9rem;
+    }
+
+    .score-options {
+        grid-template-columns: 1fr;
+    }
+
+    .radio-button {
+        min-height: 46px;
+        font-size: 0.82rem !important;
+    }
+
+    button {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+}
