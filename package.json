@@ -1,0 +1,57 @@
+{
+  "name": "judo-scoring",
+  "version": "1.0.0",
+  "description": "Professional Nage no Kata judging score sheet application",
+  "main": "main.js",
+  "homepage": "./",
+  "author": "Judo Scoring",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "dist": "electron-builder --publish never"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.1.0"
+  },
+  "devDependencies": {
+    "electron": "^latest",
+    "electron-builder": "^latest"
+  },
+  "build": {
+    "appId": "com.judoscoring.app",
+    "productName": "Judo Score Sheet",
+    "files": [
+      "main.js",
+      "index.html",
+      "style.css",
+      "script.js",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        },
+        "portable"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
+  }
+}

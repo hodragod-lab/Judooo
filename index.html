@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judo Nage no Kata Score Sheet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            background-color: lightblue;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('ServiceWorker registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Nage no Kata Score Sheet</h1>
+            <div class="info-grid">
+                <div class="info-field">
+                    <label>Competitor Name:</label>
+                    <input type="text" id="competitorName" placeholder="Enter name">
+                </div>
+                <div class="info-field">
+                    <label>Judge:</label>
+                    <input type="text" id="judgeName" placeholder="Enter judge name">
+                </div>
+                <div class="info-field">
+                    <label>Date:</label>
+                    <input type="date" id="judgeDate">
+                </div>
+            </div>
+        </div>
+
+        <div class="score-section">
+            <div class="score-display">
+                <div class="score-box">
+                    <div class="label">Starting Score</div>
+                    <div class="value">100</div>
+                </div>
+                <div class="score-box">
+                    <div class="label">Total Deductions</div>
+                    <div class="value" id="totalDeductions">0</div>
+                </div>
+                <div class="score-box final">
+                    <div class="label">Final Score</div>
+                    <div class="value" id="finalScore">100</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Controls for Safety -->
+        <div class="controls top-controls">
+            <button class="btn-start-new" onclick="resetScore()">Start New</button>
+        </div>
+
+        <div class="scoring-table-section">
+            <h2>Technique Scoring</h2>
+            <p class="scoring-note">Select one mistake level per technique (right and left - score once per technique)</p>
+            
+            <!-- BOW IN (AISATSU - Initial Salutation) -->
+            <div class="technique-group">
+                <h3 class="group-title">Aisatsu - Bow In (Initial Salutation)</h3>
+                
+                <div class="technique-row">
+                    <div class="technique-name">Bow In - Etiquette & Form</div>
+                    <div class="side-section">
+                        <div class="score-options">
+                            <label class="radio-button"><input type="radio" name="bowIn" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                            <label class="radio-button"><input type="radio" name="bowIn" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                            <label class="radio-button"><input type="radio" name="bowIn" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                            <label class="radio-button"><input type="radio" name="bowIn" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- TE-WAZA (Hand Techniques) -->
+            <div class="technique-group">
+                <h3 class="group-title">Te-Waza (Hand Techniques)</h3>
+                
+                <div class="technique-row">
+                    <div class="technique-name">1. Uki Otoshi (Floating Drop)</div>
+                    <div class="side-section">
+                        <div class="side-label">LEFT</div>
+                        <div class="score-options">
+                            <label class="radio-button"><input type="radio" name="technique1L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                            <label class="radio-button"><input type="radio" name="technique1L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                            <label class="radio-button"><input type="radio" name="technique1L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                            <label class="radio-button"><input type="radio" name="technique1L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                        </div>
+                    </div>
+                    <div class="side-section">
+                        <div class="side-label">RIGHT</div>
+                        <div class="score-options">
+                            <label class="radio-button"><input type="radio" name="technique1R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                            <label class="radio-button"><input type="radio" name="technique1R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                            <label class="radio-button"><input type="radio" name="technique1R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                            <label class="radio-button"><input type="radio" name="technique1R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">2. Seoi Nage (Shoulder Throw)</div>
+                    <div class="side-section">
+                        <div class="side-label">LEFT</div>
+                        <div class="score-options">
+                            <label class="radio-button"><input type="radio" name="technique2L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                            <label class="radio-button"><input type="radio" name="technique2L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                            <label class="radio-button"><input type="radio" name="technique2L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                            <label class="radio-button"><input type="radio" name="technique2L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                        </div>
+                    </div>
+                    <div class="side-section">
+                        <div class="side-label">RIGHT</div>
+                        <div class="score-options">
+                            <label class="radio-button"><input type="radio" name="technique2R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                            <label class="radio-button"><input type="radio" name="technique2R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                            <label class="radio-button"><input type="radio" name="technique2R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                            <label class="radio-button"><input type="radio" name="technique2R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">3. Kata Guruma (Shoulder Wheel)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique3L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique3L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique3L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique3L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique3R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique3R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique3R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique3R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOSHI-WAZA (Hip Techniques) -->
+            <div class="technique-group">
+                <h3 class="group-title">Koshi-Waza (Hip Techniques)</h3>
+                
+                <div class="technique-row">
+                    <div class="technique-name">4. Uki Goshi (Floating Hip Throw)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique4L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique4L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique4L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique4L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique4R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique4R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique4R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique4R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">5. Harai Goshi (Sweeping Hip Throw)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique5L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique5L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique5L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique5L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique5R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique5R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique5R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique5R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">6. Tsurikomi Goshi (Lifting Hip Throw)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique6L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique6L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique6L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique6L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique6R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique6R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique6R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique6R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASHI-WAZA (Foot Techniques) -->
+            <div class="technique-group">
+                <h3 class="group-title">Ashi-Waza (Foot Techniques)</h3>
+                
+                <div class="technique-row">
+                    <div class="technique-name">7. Okuriashi Harai (Sliding Foot Sweep)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique7L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique7L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique7L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique7L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique7R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique7R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique7R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique7R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">8. Sasae Tsurikomi Ashi (Propping Ankle Throw)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique8L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique8L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique8L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique8L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique8R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique8R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique8R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique8R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">9. Uchi Mata (Inner Thigh Throw)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique9L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique9L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique9L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique9L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique9R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique9R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique9R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique9R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MA-SUTEMI-WAZA (Rear Sacrifice Techniques) -->
+            <div class="technique-group">
+                <h3 class="group-title">Ma-Sutemi-Waza (Rear Sacrifice Techniques)</h3>
+                
+                <div class="technique-row">
+                    <div class="technique-name">10. Tomoe Nage (Circle Throw)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique10L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique10L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique10L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique10L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique10R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique10R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique10R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique10R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">11. Ura Nage (Rear Throw)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique11L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique11L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique11L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique11L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique11R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique11R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique11R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique11R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">12. Sumi Gaeshi (Corner Reversal)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique12L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique12L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique12L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique12L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique12R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique12R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique12R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique12R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- YOKO-SUTEMI-WAZA (Side Sacrifice Techniques) -->
+            <div class="technique-group">
+                <h3 class="group-title">Yoko-Sutemi-Waza (Side Sacrifice Techniques)</h3>
+                
+                <div class="technique-row">
+                    <div class="technique-name">13. Yoko Gake (Side Hook)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique13L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique13L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique13L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique13L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique13R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique13R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique13R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique13R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">14. Yoko Guruma (Side Wheel)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique14L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique14L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique14L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique14L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique14R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique14R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique14R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique14R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="technique-row">
+                    <div class="technique-name">15. Uki Waza (Floating Technique)</div>
+                    
+                        <div class="side-section">
+                            <div class="side-label">LEFT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique15L" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique15L" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique15L" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique15L" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                        <div class="side-section">
+                            <div class="side-label">RIGHT</div>
+                            <div class="score-options">
+                                <label class="radio-button"><input type="radio" name="technique15R" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                                <label class="radio-button"><input type="radio" name="technique15R" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique15R" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                                <label class="radio-button"><input type="radio" name="technique15R" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOW OUT (AISATSU - Final Salutation) -->
+            <div class="technique-group">
+                <h3 class="group-title">Aisatsu - Bow Out (Final Salutation)</h3>
+                
+                <div class="technique-row">
+                    <div class="technique-name">Bow Out - Etiquette & Form</div>
+                    <div class="score-options">
+                        <label class="radio-button"><input type="radio" name="bowOut" value="0" onchange="updateScore()"><span>No Mistake</span></label>
+                        <label class="radio-button"><input type="radio" name="bowOut" value="0.5" onchange="updateScore()"><span>Small (-0.5)</span></label>
+                        <label class="radio-button"><input type="radio" name="bowOut" value="1" onchange="updateScore()"><span>Medium (-1.0)</span></label>
+                        <label class="radio-button"><input type="radio" name="bowOut" value="2" onchange="updateScore()"><span>Big (-2.0)</span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Controls for Saving & Viewing -->
+        <div class="controls bottom-controls">
+            <button class="btn-save" onclick="saveScore()">Save All</button>
+            <button class="btn-view-score" onclick="viewFinalScore()">See Final Score</button>
+        </div>
+
+        <div class="notes-section">
+            <label for="judgeNotes">Judge Notes:</label>
+            <textarea id="judgeNotes" placeholder="Add any additional comments or observations..."></textarea>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

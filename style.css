@@ -1,0 +1,621 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #667eea;
+    padding-bottom: 20px;
+}
+
+h1 {
+    color: #333;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #667eea;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    margin-top: 25px;
+}
+
+h3 {
+    color: #555;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.info-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-field label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.info-field input,
+.notes-section textarea {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.info-field input:focus,
+.notes-section textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.score-section {
+    margin: 30px 0;
+}
+
+.score-display {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.score-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.score-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.score-box.final {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.score-box .label {
+    font-size: 0.9em;
+    opacity: 0.9;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.score-box .value {
+    font-size: 3em;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+}
+
+/* Scoring Table Styles */
+.scoring-table-section {
+    background: #f9f9f9;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 30px 0;
+}
+
+.scoring-note {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    border-radius: 4px;
+}
+
+.technique-group {
+    background: white;
+    margin: 30px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.group-title {
+    background: #667eea;
+    color: white;
+    padding: 12px 20px;
+    margin: 0;
+    font-size: 1.05em;
+}
+
+.technique-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.technique-row:last-child {
+    border-bottom: none;
+}
+
+.technique-row:hover {
+    background-color: #fff9f0;
+}
+
+.technique-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95em;
+    flex: 0 0 auto;
+    width: 120px;
+    min-width: 120px;
+}
+
+.side-section {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.side-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.score-options {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex: 1;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+/* Larger radio button styling for tablets */
+.radio-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px !important;
+    margin: 4px !important;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 11px !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    min-width: 85px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.radio-button:hover {
+    border-color: #667eea;
+    background-color: #f0f4ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.radio-button input[type="radio"] {
+    margin-right: 8px !important;
+    width: 20px !important;
+    height: 20px !important;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+.radio-button input[type="radio"]:checked {
+    accent-color: #f5576c;
+}
+
+.radio-button input[type="radio"]:checked + span {
+    color: #f5576c;
+    font-weight: bold;
+}
+
+.radio-button:has(input[type="radio"]:checked) {
+    border-color: #f5576c;
+    background: linear-gradient(135deg, #fff0f5 0%, #ffe0eb 100%);
+    box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.15);
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+.controls.top-controls {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+}
+
+.controls.bottom-controls {
+    background: #f0f8ff;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 30px 0;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+button {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-start-new {
+    background: #e74c3c;
+    color: white;
+    padding: 14px 28px;
+}
+
+.btn-start-new:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+.btn-start-new:active {
+    transform: translateY(0);
+}
+
+.btn-save {
+    background: #27ae60;
+    color: white;
+    padding: 14px 28px;
+}
+
+.btn-save:hover {
+    background: #229954;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+.btn-view-score {
+    background: #3498db;
+    color: white;
+    padding: 14px 28px;
+}
+
+.btn-view-score:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.notes-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+
+.notes-section label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.notes-section textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95em;
+    resize: vertical;
+}
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .container {
+        box-shadow: none;
+        max-width: 100%;
+        padding: 20px;
+    }
+
+    .controls {
+        display: none;
+    }
+
+    .score-box {
+        break-inside: avoid;
+    }
+
+    .technique-group {
+        break-inside: avoid;
+    }
+}
+
+@media (max-width: 1024px) {
+    .technique-row {
+        gap: 15px;
+        padding: 12px 15px;
+    }
+
+    .technique-name {
+        flex: 0 0 110px;
+        min-width: 110px;
+    }
+
+    .score-options {
+        gap: 6px;
+        min-width: 180px;
+    }
+
+    .side-section {
+        min-width: 150px;
+    }
+
+    .radio-button {
+        padding: 9px 10px !important;
+        min-width: 80px;
+        font-size: 11px !important;
+    }
+
+    .radio-button input[type="radio"] {
+        width: 16px !important;
+        height: 16px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .score-display {
+        grid-template-columns: 1fr;
+    }
+
+    .technique-name {
+        flex: 1;
+        min-width: auto;
+    }
+
+    .technique-row {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .score-options {
+        gap: 6px;
+        flex-wrap: wrap;
+        min-width: auto;
+    }
+
+    .side-section {
+        min-width: auto;
+        flex: 1;
+    }
+
+    .radio-button {
+        padding: 10px 10px !important;
+        min-width: 75px;
+        font-size: 11px !important;
+        flex: 0 1 calc(33% - 5px);
+    }
+
+    .radio-button input[type="radio"] {
+        width: 18px !important;
+        height: 18px !important;
+        margin-right: 4px !important;
+    }
+
+    .radio-button span {
+        text-align: center;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .score-box .value {
+        font-size: 2em;
+    }
+
+    .technique-row {
+        padding: 8px;
+    }
+
+    /* Full width buttons on small phones */
+    .radio-button {
+        flex: 1 1 calc(50% - 4px);
+        padding: 12px 8px !important;
+        font-size: 12px !important;
+        min-height: 48px;
+    }
+
+    .radio-button input[type="radio"] {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .technique-name {
+        font-size: 0.85em;
+    }
+}
+
+/* Adjustments for consistent alignment */
+
+/* Ensure all sections have uniform padding and margins */
+.container {
+    padding: 40px;
+}
+
+/* Align .info-grid fields properly */
+.info-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* Ensure .score-display boxes align properly */
+.score-display {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+/* Fix alignment issues in .technique-row */
+.technique-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Ensure .side-section aligns properly */
+.side-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* Display side labels for better alignment */
+.side-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Add consistent spacing between technique groups */
+.technique-group {
+    margin: 30px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Ensure .notes-section aligns with the rest of the page */
+.notes-section {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+}
+
+/* Ensure uniform alignment and spacing across all sections */
+
+/* Set consistent max-width and center alignment for all sections */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+/* Adjust .info-grid for better alignment */
+.info-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Align .score-display with .info-grid */
+.score-display {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: space-between;
+}
+
+/* Ensure .technique-row aligns with other sections */
+.technique-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 0;
+}
+
+/* Adjust .side-section for consistent alignment */
+.side-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* Add consistent spacing between sections */
+.technique-group {
+    margin: 30px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Ensure .notes-section aligns with the rest of the page */
+.notes-section {
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+}
